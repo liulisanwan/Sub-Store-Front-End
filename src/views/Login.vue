@@ -41,8 +41,8 @@ export default {
             ruleForm.value.validate().then(({ valid, errors }: any) => {
                 if (valid) {
                     console.log('success', formData);
-                    if (formData.name == 'import.meta.env.ADMIN_USERNAME') {
-                        if (formData.pwd == 'import.meta.env.ADMIN_PASSWORD') {
+                    if (formData.name == import.meta.env.ADMIN_USERNAME) {
+                        if (formData.pwd == import.meta.env.ADMIN_PASSWORD) {
                             Notify.success('登录成功,欢迎回来！', { duration: 1000 });
                             Toast.loading('', {
                                 cover: false // 透明罩
