@@ -1,17 +1,9 @@
 name: Build and Release
 
 on:
-  push:
-    branches:
-      - master
-    paths:
-      - "package.json"
-  pull_request:
-    branches:
-      - master
-    paths:
-      - "package.json"
-  workflow_dispatch:  # 添加这一行
+  schedule:
+    - cron: '0 22 * * *' # 每天晚上 UTC 时间 10 点触发
+  workflow_dispatch:  # 手动触发
 
 jobs:
   build:
@@ -50,9 +42,9 @@ jobs:
         run: |
           pnpm i -D conventional-changelog-cli
           pnpm run changelog
-      - name: Get current date
+      - name: Get current date and time
         id: date
-        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+        run: echo "date=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
       - name: Release
         uses: softprops/action-gh-release@v1
         if: ${{ success() }}
