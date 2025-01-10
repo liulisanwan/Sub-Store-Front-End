@@ -70,6 +70,7 @@ export default {
       apiSetting: '后端设置',
       aboutUs: '关于 Sub-Store',
       notFound: '地址未找到',
+      login: '登录',
       askWhat: {
         sync: {
           title: '什么是同步？',

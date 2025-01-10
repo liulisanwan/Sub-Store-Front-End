@@ -1,27 +1,18 @@
 <template>
   <div v-if="isDis">
-  <div class="page-wrapper" @click="handleEditGlobalClick">
-    <!-- 基础表单 -->
-    <div class="form-block-wrapper">
-      <div v-if="appearanceSetting.isShowIcon" class="sticky-title-icon-container">
-        <nut-image
-          :class="{ 'sub-item-customer-icon': !appearanceSetting.isIconColor }"
-          :src="subIcon"
-          fit="cover"
-          show-loading
-          @click="showIconPopup"
-        />
-      </div>
-      <!-- <div class="sticky-title-wrapper">
+    <div class="page-wrapper" @click="handleEditGlobalClick">
+      <!-- 基础表单 -->
+      <div class="form-block-wrapper">
+        <div v-if="appearanceSetting.isShowIcon" class="sticky-title-icon-container">
+          <nut-image :class="{ 'sub-item-customer-icon': !appearanceSetting.isIconColor }" :src="subIcon" fit="cover"
+            show-loading @click="showIconPopup" />
+        </div>
+        <!-- <div class="sticky-title-wrapper">
         <p>{{ $t(`editorPage.subConfig.basic.label`) }}</p>
       </div> -->
-      <nut-form class="form" :model-value="form" ref="ruleForm">
-        <!-- name -->
-        <nut-form-item
-          required
-          :label="$t(`editorPage.subConfig.basic.name.label`)"
-          prop="name"
-          :rules="[
+        <nut-form class="form" :model-value="form" ref="ruleForm">
+          <!-- name -->
+          <nut-form-item required :label="$t(`editorPage.subConfig.basic.name.label`)" prop="name" :rules="[
             {
               required: true,
               message: $t(`editorPage.subConfig.basic.name.isEmpty`),
@@ -30,111 +21,51 @@
               validator: nameValidator,
               message: $t(`editorPage.subConfig.basic.name.isInvalid`),
             },
-          ]"
-        >
-          <input
-            class="nut-input-text"
-            data-1p-ignore
-            @blur="customerBlurValidate('name')"
-            v-model.trim="form.name"
-            :placeholder="$t(`editorPage.subConfig.basic.name.placeholder`)"
-            type="text"
-          />
-        </nut-form-item>
-        <!-- displayName -->
-        <nut-form-item
-          :label="$t(`editorPage.subConfig.basic.displayName.label`)"
-          prop="displayName"
-        >
-          <input
-            class="nut-input-text"
-            data-1p-ignore
-            v-model.trim="form.displayName"
-            :placeholder="
-              $t(`editorPage.subConfig.basic.displayName.placeholder`)
-            "
-            type="text"
-          />
-        </nut-form-item>
-        <!-- remark -->
-        <nut-form-item
-          :label="$t(`editorPage.subConfig.basic.remark.label`)"
-          prop="remark"
-        >
-          <nut-textarea
-            class="nut-input-text"
-            :border="false"
-            v-model="form.remark"
-            :placeholder="
-              $t(`editorPage.subConfig.basic.remark.placeholder`)
-            "
-            type="text"
-            input-align="right"
-            rows="1"
-            :autosize="{ maxHeight: 140 }"
-            max-length="100"
-          />
-        </nut-form-item>
-        <!-- tag -->
-        <nut-form-item
-          :label="$t(`editorPage.subConfig.basic.tag.label`)"
-          prop="tag"
-        >
-          <nut-input
-            class="nut-input-text"
-            v-model.trim="form.tag"
-            :border="false"
-            :placeholder="$t(`editorPage.subConfig.basic.tag.placeholder`)"
-            type="text"
-            input-align="right"
-            right-icon="rect-right"
-            @click-right-icon="showTagPopup('tag')"
-          >
-          </nut-input>
-        </nut-form-item>
-        <!-- icon -->
-        <nut-form-item
-          :label="$t(`editorPage.subConfig.basic.icon.label`)"
-          prop="icon"
-        >
-          <nut-input
-              :border="false"
-              class="nut-input-text"
-              v-model.trim="form.icon"
-              :placeholder="$t(`editorPage.subConfig.basic.icon.placeholder`)"
-              type="text"
-              input-align="right"
-              left-icon="shop"
-              @click-left-icon="showIconPopup"
-            />
-        </nut-form-item>
-
-        <template v-if="editType === 'subs'">
-          <!-- source -->
-          <nut-form-item
-            required
-            :label="$t(`editorPage.subConfig.basic.source.label`)"
-            prop="source"
-          >
-            <div class="radio-wrapper">
-              <nut-radiogroup direction="horizontal" v-model="form.source">
-                <nut-radio shape="button" label="remote">
-                  {{ $t(`editorPage.subConfig.basic.source.remote`) }}
-                </nut-radio>
-                <nut-radio shape="button" label="local">
-                  {{ $t(`editorPage.subConfig.basic.source.local`) }}
-                </nut-radio>
-              </nut-radiogroup>
-            </div>
+          ]">
+            <input class="nut-input-text" data-1p-ignore @blur="customerBlurValidate('name')" v-model.trim="form.name"
+              :placeholder="$t(`editorPage.subConfig.basic.name.placeholder`)" type="text" />
           </nut-form-item>
-          <!-- url / content -->
-          <!-- :label="$t(`editorPage.subConfig.basic.url.label`)" -->
-          <nut-form-item
-            required
-            
-            v-if="form.source === 'remote'"
-            prop="url"
-            :rules="[
+          <!-- displayName -->
+          <nut-form-item :label="$t(`editorPage.subConfig.basic.displayName.label`)" prop="displayName">
+            <input class="nut-input-text" data-1p-ignore v-model.trim="form.displayName" :placeholder="$t(`editorPage.subConfig.basic.displayName.placeholder`)
+              " type="text" />
+          </nut-form-item>
+          <!-- remark -->
+          <nut-form-item :label="$t(`editorPage.subConfig.basic.remark.label`)" prop="remark">
+            <nut-textarea class="nut-input-text" :border="false" v-model="form.remark" :placeholder="$t(`editorPage.subConfig.basic.remark.placeholder`)
+              " type="text" input-align="right" rows="1" :autosize="{ maxHeight: 140 }" max-length="100" />
+          </nut-form-item>
+          <!-- tag -->
+          <nut-form-item :label="$t(`editorPage.subConfig.basic.tag.label`)" prop="tag">
+            <nut-input class="nut-input-text" v-model.trim="form.tag" :border="false"
+              :placeholder="$t(`editorPage.subConfig.basic.tag.placeholder`)" type="text" input-align="right"
+              right-icon="rect-right" @click-right-icon="showTagPopup('tag')">
+            </nut-input>
+          </nut-form-item>
+          <!-- icon -->
+          <nut-form-item :label="$t(`editorPage.subConfig.basic.icon.label`)" prop="icon">
+            <nut-input :border="false" class="nut-input-text" v-model.trim="form.icon"
+              :placeholder="$t(`editorPage.subConfig.basic.icon.placeholder`)" type="text" input-align="right"
+              left-icon="shop" @click-left-icon="showIconPopup" />
+          </nut-form-item>
+
+          <template v-if="editType === 'subs'">
+            <!-- source -->
+            <nut-form-item required :label="$t(`editorPage.subConfig.basic.source.label`)" prop="source">
+              <div class="radio-wrapper">
+                <nut-radiogroup direction="horizontal" v-model="form.source">
+                  <nut-radio shape="button" label="remote">
+                    {{ $t(`editorPage.subConfig.basic.source.remote`) }}
+                  </nut-radio>
+                  <nut-radio shape="button" label="local">
+                    {{ $t(`editorPage.subConfig.basic.source.local`) }}
+                  </nut-radio>
+                </nut-radiogroup>
+              </div>
+            </nut-form-item>
+            <!-- url / content -->
+            <!-- :label="$t(`editorPage.subConfig.basic.url.label`)" -->
+            <nut-form-item required v-if="form.source === 'remote'" prop="url" :rules="[
               {
                 required: true,
                 message: $t(`editorPage.subConfig.basic.url.isEmpty`),
@@ -143,33 +74,22 @@
                 validator: urlValidator,
                 message: $t(`editorPage.subConfig.basic.url.isIllegal`),
               },
-            ]"
-          >
-            <template v-slot:label>
-              <span class="label-tips" @click="urlTips">
-                <p>{{$t(`editorPage.subConfig.basic.url.label`)}}</p>
-                <span class="tips">
-                  <span>{{$t(`editorPage.subConfig.basic.url.tips.label`)}}</span>
-                  <!-- <nut-icon name="tips"></nut-icon> -->
+            ]">
+              <template v-slot:label>
+                <span class="label-tips" @click="urlTips">
+                  <p>{{ $t(`editorPage.subConfig.basic.url.label`) }}</p>
+                  <span class="tips">
+                    <span>{{ $t(`editorPage.subConfig.basic.url.tips.label`) }}</span>
+                    <!-- <nut-icon name="tips"></nut-icon> -->
+                  </span>
                 </span>
-              </span>
-            </template>
-            <nut-textarea
-              class="textarea-wrapper"
-              @blur="customerBlurValidate('url')"
-              @change="strTrim('url')"
-              v-model="form.url"
-              :autosize="{ maxHeight: 110, minHeight: 50 }"
-              :placeholder="$t(`editorPage.subConfig.basic.url.placeholder`)"
-              type="text"
-            />
-          </nut-form-item>
-          <nut-form-item
-            v-else-if="form.source === 'local'"
-            :label="undefined"
-            prop="content"
-          >
-            <!-- <nut-textarea
+              </template>
+              <nut-textarea class="textarea-wrapper" @blur="customerBlurValidate('url')" @change="strTrim('url')"
+                v-model="form.url" :autosize="{ maxHeight: 110, minHeight: 50 }"
+                :placeholder="$t(`editorPage.subConfig.basic.url.placeholder`)" type="text" />
+            </nut-form-item>
+            <nut-form-item v-else-if="form.source === 'local'" :label="undefined" prop="content">
+              <!-- <nut-textarea
               class="textarea-wrapper"
               v-model="form.content"
               text-align="left"
@@ -179,276 +99,152 @@
               "
               type="text"
             /> -->
-            <button class="cimg-button" @click="isDis = false">
-              <img src="" />
-              {{ $t(`editorPage.subConfig.basic.url.tips.fullScreenEdit`) }}
-              <!-- 测试 后续再改效果 -->
-            </button>
-            <input type="file" ref="fileInput" @change="fileChange" style="display: none">
-            <button class="cimg-button" @click="upload">
-              {{ $t(`editorPage.subConfig.basic.url.tips.importFromFile`) }}
-            </button>
-            <span class="button-tips" @click="contentTips">
+              <button class="cimg-button" @click="isDis = false">
+                <img src="" />
+                {{ $t(`editorPage.subConfig.basic.url.tips.fullScreenEdit`) }}
+                <!-- 测试 后续再改效果 -->
+              </button>
+              <input type="file" ref="fileInput" @change="fileChange" style="display: none">
+              <button class="cimg-button" @click="upload">
+                {{ $t(`editorPage.subConfig.basic.url.tips.importFromFile`) }}
+              </button>
+              <span class="button-tips" @click="contentTips">
                 <span class="tips">
-                  <span>{{$t(`editorPage.subConfig.basic.url.tips.label`)}}</span>
+                  <span>{{ $t(`editorPage.subConfig.basic.url.tips.label`) }}</span>
                   <!-- <nut-icon name="tips"></nut-icon> -->
                 </span>
               </span>
-            <div style="margin-left: -15px; margin-right: -15px;max-height: 60vh;overflow: auto;">
-              <cmView :isReadOnly="false" id="SubEditer"/>
-            </div>
-          </nut-form-item>
-          <!-- ua -->
-          <nut-form-item
-            :label="$t(`editorPage.subConfig.basic.passThroughUA.label`)"
-            prop="passThroughUA"
-            class="ignore-failed-wrapper"
-            v-if="form.source === 'remote'"
-          >
-            <div class="switch-wrapper">
-              <nut-switch v-model="form.passThroughUA" />
-            </div>
-          </nut-form-item>
-          <nut-form-item
-            :label="$t(`editorPage.subConfig.basic.ua.label`)"
-            prop="ua"
-            v-if="form.source === 'remote'"
-          >
-            <nut-input
-              :border="false"
-              class="nut-input-text"
-              v-model.trim="form.ua"
-              :placeholder="$t(`editorPage.subConfig.basic.ua.placeholder`)"
-              type="text"
-              input-align="right"
-              left-icon="tips"
-              @click-left-icon="uaTips"
-            />
-          </nut-form-item>
-
-          <nut-form-item
-            :label="$t(`editorPage.subConfig.basic.subUserinfo.label`)"
-            prop="subUserinfo"
-          >
-            <nut-input
-              :border="false"
-              class="nut-input-text"
-              v-model.trim="form.subUserinfo"
-              :placeholder="
-                $t(`editorPage.subConfig.basic.subUserinfo.placeholder`)
-              "
-              type="text"
-              input-align="right"
-              left-icon="tips"
-              @click-left-icon="subUserinfoTips"
-            />
-          </nut-form-item>
-
-          <nut-form-item
-            :label="$t(`editorPage.subConfig.basic.proxy.label`)"
-            prop="proxy"
-          >
-            <nut-input
-              :border="false"
-              class="nut-input-text"
-              v-model.trim="form.proxy"
-              :placeholder="$t(`editorPage.subConfig.basic.proxy.placeholder`)"
-              type="text"
-              input-align="right"
-              left-icon="tips"
-              @click-left-icon="proxyTips"
-            />
-          </nut-form-item>
-
-          <nut-form-item
-            :label="$t(`editorPage.subConfig.basic.source.mergeSources`)"
-            prop="mergeSources"
-          >
-            <div class="radio-wrapper">
-              <nut-radiogroup
-                direction="horizontal"
-                v-model="form.mergeSources"
-              >
-                <nut-radio shape="button" label="">
-                  {{ $t(`editorPage.subConfig.basic.source.noMerge`) }}
-                </nut-radio>
-                <nut-radio shape="button" label="localFirst">
-                  {{ $t(`editorPage.subConfig.basic.source.localFirst`) }}
-                </nut-radio>
-                <nut-radio shape="button" label="remoteFirst">
-                  {{ $t(`editorPage.subConfig.basic.source.remoteFirst`) }}
-                </nut-radio>
-              </nut-radiogroup>
-            </div>
-          </nut-form-item>
-        </template>
-
-        <template v-else-if="editType === 'collections'">
-          <!-- subscriptionTags -->
-          <nut-form-item
-            :label="$t(`editorPage.subConfig.basic.subscriptionTags.label`)"
-            prop="subscriptionTags"
-          >
-            <nut-input
-              :border="false"
-              class="nut-input-text"
-              v-model.trim="form.subscriptionTags"
-              :placeholder="$t(`editorPage.subConfig.basic.subscriptionTags.placeholder`)"
-              type="text"
-              input-align="right"
-              left-icon="tips"
-              right-icon="rect-right"
-              @click-left-icon="subscriptionTagsTips"
-              @click-right-icon="showTagPopup('linkTag')"
-            />
-          </nut-form-item>
-          <nut-form-item
-            :label="$t(`editorPage.subConfig.basic.subscriptions.label`)+ selectedSubs"
-            prop="subscriptions"
-            class="include-subs-wrapper"
-          >
-            <div v-if="tags && tags.length > 0" class="tag-check">
-              <div class="radio-wrapper">
-                <span
-                  v-for="i in tags"
-                  :class="{ tag: true, current: i.value === tag }"
-                  @click="setTag(i.value)"
-                >
-                  {{ i.label }}
-                </span>
+              <div style="margin-left: -15px; margin-right: -15px;max-height: 60vh;overflow: auto;">
+                <cmView :isReadOnly="false" id="SubEditer" />
               </div>
-              <nut-checkbox v-model="subCheckbox" :indeterminate="subCheckboxIndeterminate" @click="subCheckboxClick"></nut-checkbox>
-            </div>
-            <nut-checkboxgroup
-              v-model="form.subscriptions"
-              class="subs-checkbox-wrapper"
-            >
-              <nut-checkbox
-                v-for="item in subsSelectList"
-                v-show="shouldShowElement(item[3])"
-                :key="item[0]"
-                :label="item[0]"
-                text-position="left"
-                class="subs-checkbox"
-              >
-                <div class="sub-img-wrapper">
-                  <nut-avatar
-                    :class="{ 'sub-item-customer-icon': !appearanceSetting.isIconColor, 'icon': true  }"
-                    v-if="item[2]"
-                    size="32"
-                    :url="item[2]"
-                    bg-color=""
-                  ></nut-avatar>
-                  <span class="sub-item">
-                    <span class="name">{{ item[1] }}</span>
-                    <span class="tag" v-for="i in item[3]" :key="i">
-                      <nut-tag>{{ i }}</nut-tag>
-                    </span>
+            </nut-form-item>
+            <!-- ua -->
+            <nut-form-item :label="$t(`editorPage.subConfig.basic.passThroughUA.label`)" prop="passThroughUA"
+              class="ignore-failed-wrapper" v-if="form.source === 'remote'">
+              <div class="switch-wrapper">
+                <nut-switch v-model="form.passThroughUA" />
+              </div>
+            </nut-form-item>
+            <nut-form-item :label="$t(`editorPage.subConfig.basic.ua.label`)" prop="ua" v-if="form.source === 'remote'">
+              <nut-input :border="false" class="nut-input-text" v-model.trim="form.ua"
+                :placeholder="$t(`editorPage.subConfig.basic.ua.placeholder`)" type="text" input-align="right"
+                left-icon="tips" @click-left-icon="uaTips" />
+            </nut-form-item>
+
+            <nut-form-item :label="$t(`editorPage.subConfig.basic.subUserinfo.label`)" prop="subUserinfo">
+              <nut-input :border="false" class="nut-input-text" v-model.trim="form.subUserinfo" :placeholder="$t(`editorPage.subConfig.basic.subUserinfo.placeholder`)
+                " type="text" input-align="right" left-icon="tips" @click-left-icon="subUserinfoTips" />
+            </nut-form-item>
+
+            <nut-form-item :label="$t(`editorPage.subConfig.basic.proxy.label`)" prop="proxy">
+              <nut-input :border="false" class="nut-input-text" v-model.trim="form.proxy"
+                :placeholder="$t(`editorPage.subConfig.basic.proxy.placeholder`)" type="text" input-align="right"
+                left-icon="tips" @click-left-icon="proxyTips" />
+            </nut-form-item>
+
+            <nut-form-item :label="$t(`editorPage.subConfig.basic.source.mergeSources`)" prop="mergeSources">
+              <div class="radio-wrapper">
+                <nut-radiogroup direction="horizontal" v-model="form.mergeSources">
+                  <nut-radio shape="button" label="">
+                    {{ $t(`editorPage.subConfig.basic.source.noMerge`) }}
+                  </nut-radio>
+                  <nut-radio shape="button" label="localFirst">
+                    {{ $t(`editorPage.subConfig.basic.source.localFirst`) }}
+                  </nut-radio>
+                  <nut-radio shape="button" label="remoteFirst">
+                    {{ $t(`editorPage.subConfig.basic.source.remoteFirst`) }}
+                  </nut-radio>
+                </nut-radiogroup>
+              </div>
+            </nut-form-item>
+          </template>
+
+          <template v-else-if="editType === 'collections'">
+            <!-- subscriptionTags -->
+            <nut-form-item :label="$t(`editorPage.subConfig.basic.subscriptionTags.label`)" prop="subscriptionTags">
+              <nut-input :border="false" class="nut-input-text" v-model.trim="form.subscriptionTags"
+                :placeholder="$t(`editorPage.subConfig.basic.subscriptionTags.placeholder`)" type="text"
+                input-align="right" left-icon="tips" right-icon="rect-right" @click-left-icon="subscriptionTagsTips"
+                @click-right-icon="showTagPopup('linkTag')" />
+            </nut-form-item>
+            <nut-form-item :label="$t(`editorPage.subConfig.basic.subscriptions.label`) + selectedSubs"
+              prop="subscriptions" class="include-subs-wrapper">
+              <div v-if="tags && tags.length > 0" class="tag-check">
+                <div class="radio-wrapper">
+                  <span v-for="i in tags" :class="{ tag: true, current: i.value === tag }" @click="setTag(i.value)">
+                    {{ i.label }}
                   </span>
                 </div>
-              </nut-checkbox>
-            </nut-checkboxgroup>
+                <nut-checkbox v-model="subCheckbox" :indeterminate="subCheckboxIndeterminate"
+                  @click="subCheckboxClick"></nut-checkbox>
+              </div>
+              <nut-checkboxgroup v-model="form.subscriptions" class="subs-checkbox-wrapper">
+                <nut-checkbox v-for="item in subsSelectList" v-show="shouldShowElement(item[3])" :key="item[0]"
+                  :label="item[0]" text-position="left" class="subs-checkbox">
+                  <div class="sub-img-wrapper">
+                    <nut-avatar :class="{ 'sub-item-customer-icon': !appearanceSetting.isIconColor, 'icon': true }"
+                      v-if="item[2]" size="32" :url="item[2]" bg-color=""></nut-avatar>
+                    <span class="sub-item">
+                      <span class="name">{{ item[1] }}</span>
+                      <span class="tag" v-for="i in item[3]" :key="i">
+                        <nut-tag>{{ i }}</nut-tag>
+                      </span>
+                    </span>
+                  </div>
+                </nut-checkbox>
+              </nut-checkboxgroup>
             </nut-form-item>
-            <nut-form-item
-              :label="$t(`editorPage.subConfig.basic.subUserinfo.label`)"
-              prop="subUserinfo"
-            >
-              <nut-input
-                :border="false"
-                class="nut-input-text"
-                v-model.trim="form.subUserinfo"
-                :placeholder="
-                  $t(`editorPage.subConfig.basic.subUserinfo.placeholder`)
-                "
-                type="text"
-                input-align="right"
-                left-icon="tips"
-                @click-left-icon="subUserinfoTips"
-              />
+            <nut-form-item :label="$t(`editorPage.subConfig.basic.subUserinfo.label`)" prop="subUserinfo">
+              <nut-input :border="false" class="nut-input-text" v-model.trim="form.subUserinfo" :placeholder="$t(`editorPage.subConfig.basic.subUserinfo.placeholder`)
+                " type="text" input-align="right" left-icon="tips" @click-left-icon="subUserinfoTips" />
             </nut-form-item>
-            <nut-form-item
-              :label="$t(`editorPage.subConfig.basic.proxy.label`)"
-              prop="proxy"
-            >
-              <nut-input
-                :border="false"
-                class="nut-input-text"
-                v-model.trim="form.proxy"
-                :placeholder="$t(`editorPage.subConfig.basic.proxy.placeholder`)"
-                type="text"
-                input-align="right"
-                left-icon="tips"
-                @click-left-icon="proxyTips"
-              />
+            <nut-form-item :label="$t(`editorPage.subConfig.basic.proxy.label`)" prop="proxy">
+              <nut-input :border="false" class="nut-input-text" v-model.trim="form.proxy"
+                :placeholder="$t(`editorPage.subConfig.basic.proxy.placeholder`)" type="text" input-align="right"
+                left-icon="tips" @click-left-icon="proxyTips" />
             </nut-form-item>
-        </template>
+          </template>
 
-        <nut-form-item
-          :label="$t(`editorPage.subConfig.basic.ignoreFailedRemoteSub.label`)"
-          prop="ignoreFailedRemoteSub"
-          class="ignore-failed-wrapper"
-        >
-          <div class="switch-wrapper">
-            <nut-switch v-model="form.ignoreFailedRemoteSub" />
-          </div>
-        </nut-form-item>
-      </nut-form>
+          <nut-form-item :label="$t(`editorPage.subConfig.basic.ignoreFailedRemoteSub.label`)"
+            prop="ignoreFailedRemoteSub" class="ignore-failed-wrapper">
+            <div class="switch-wrapper">
+              <nut-switch v-model="form.ignoreFailedRemoteSub" />
+            </div>
+          </nut-form-item>
+        </nut-form>
+      </div>
+
+      <!-- 常用配置 -->
+      <CommonBlock v-if="appearanceSetting.isEditorCommon" />
+
+      <!-- 节点操作 -->
+      <ActionBlock ref="actionBlockRef" :checked="actionsChecked" :list="actionsList"
+        @updateCustomNameModeFlag="updateCustomNameModeFlag" @addAction="addAction" @deleteAction="deleteAction"
+        @toggleAction="toggleAction" />
     </div>
 
-    <!-- 常用配置 -->
-    <CommonBlock v-if="appearanceSetting.isEditorCommon" />
-
-    <!-- 节点操作 -->
-    <ActionBlock
-      ref="actionBlockRef"
-      :checked="actionsChecked"
-      :list="actionsList"
-      @updateCustomNameModeFlag="updateCustomNameModeFlag"
-      @addAction="addAction"
-      @deleteAction="deleteAction"
-      @toggleAction="toggleAction"
-    />
+    <div class="bottom-btn-wrapper">
+      <nut-button @click="compare" class="compare-btn btn" plain shape="square">
+        <font-awesome-icon icon="fa-solid fa-eye" />
+        {{ $t("editorPage.subConfig.btn.compare") }}
+      </nut-button>
+      <nut-button @click="submit" class="submit-btn btn" type="primary" shape="square">
+        <font-awesome-icon icon="fa-solid fa-floppy-disk" />
+        {{ $t("editorPage.subConfig.btn.save") }}
+      </nut-button>
+    </div>
   </div>
-
-  <div class="bottom-btn-wrapper">
-    <nut-button @click="compare" class="compare-btn btn" plain shape="square">
-      <font-awesome-icon icon="fa-solid fa-eye" />
-      {{ $t("editorPage.subConfig.btn.compare") }}
-    </nut-button>
-    <nut-button
-      @click="submit"
-      class="submit-btn btn"
-      type="primary"
-      shape="square"
-    >
-      <font-awesome-icon icon="fa-solid fa-floppy-disk" />
-      {{ $t("editorPage.subConfig.btn.save") }}
-    </nut-button>
-  </div>
-</div>
-<div v-else style="width: 100%;max-height: 95vh;">
+  <div v-else style="width: 100%;max-height: 95vh;">
     <button class="cimg-button" @click="isDis = true">
       <img src="" />
       {{ $t(`editorPage.subConfig.basic.url.tips.fullScreenEditCancel`) }}
     </button>
     <cmView :isReadOnly="false" id="SubEditer" />
   </div>
-  <CompareTable
-    v-if="compareTableIsVisible"
-    :name="configName"
-    :compareData="compareData"
-    @closeCompare="closeCompare"
-  />
-  <icon-popup
-    v-model:visible="iconPopupVisible"
-    ref="iconPopupRef"
-    @setIcon="setIcon">
+  <CompareTable v-if="compareTableIsVisible" :name="configName" :compareData="compareData" @closeCompare="closeCompare" />
+  <icon-popup v-model:visible="iconPopupVisible" ref="iconPopupRef" @setIcon="setIcon">
   </icon-popup>
-  <tag-popup
-    v-model:visible="tagPopupVisible"
-    ref="tagPopupRef"
-    :currentTag="currentTag"
-    @setTag="setTagValue">
+  <tag-popup v-model:visible="tagPopupVisible" ref="tagPopupRef" :currentTag="currentTag" @setTag="setTagValue">
   </tag-popup>
 </template>
 
@@ -507,80 +303,80 @@ const settingsStore = useSettingsStore();
 const { appearanceSetting } = storeToRefs(settingsStore);
 
 const {
-    bottomSafeArea,
-    // isEditorCommon,
-    // isDefaultIcon, 
-    // isIconColor 
-  } = storeToRefs(globalStore);
+  bottomSafeArea,
+  // isEditorCommon,
+  // isDefaultIcon, 
+  // isIconColor 
+} = storeToRefs(globalStore);
 const padding = bottomSafeArea.value + "px";
 
-  const sub = computed(() => subsStore.getOneSub(configName));
-  const collection = computed(() => subsStore.getOneCollection(configName));
+const sub = computed(() => subsStore.getOneSub(configName));
+const collection = computed(() => subsStore.getOneCollection(configName));
 
-  
-  const subsSelectList = computed(() => {
-    return subsStore.subs.map(item => {
-      return [
-        item.name,
-        item.displayName || item['display-name'] || item.name,
-        item.icon || (appearanceSetting.value.isDefaultIcon ? logoIcon : logoRedIcon),
-        item.tag
-      ];
-    });
-  });
-  const hasUntagged = ref(false);
-  const tags = computed(() => {
-    if(!subsStore.subs || subsStore.subs.length === 0) return []
-    const set = new Set()
-    subsStore.subs.forEach(sub => {
-      if (Array.isArray(sub.tag) && sub.tag.length > 0) {
-        sub.tag.forEach(i => {
-          set.add(i)
-        });
-      } else {
-        hasUntagged.value = true
-      }
-    })
 
-    let tags: any[] = Array.from(set)
-    if(tags.length === 0) return []
-    tags = tags.map(i => ({ label: i, value: i }));
-    const result = [{ label: t("specificWord.all"), value: "all" }, ...tags]
-    if(hasUntagged.value) result.push({ label: t("specificWord.untagged"), value: "untagged" })
-    return result
+const subsSelectList = computed(() => {
+  return subsStore.subs.map(item => {
+    return [
+      item.name,
+      item.displayName || item['display-name'] || item.name,
+      item.icon || (appearanceSetting.value.isDefaultIcon ? logoIcon : logoRedIcon),
+      item.tag
+    ];
   });
-  const tag = ref('all');
-  const tagPopupVisible = ref(false);
-  const tagType = ref('tag'); // 标签tag | 关联订阅标签linkTag
-  const tagPopupRef = ref(null);
-  const currentTag = computed(() => {
-    if (tagType.value === 'linkTag') {
-      return form.subscriptionTags
+});
+const hasUntagged = ref(false);
+const tags = computed(() => {
+  if (!subsStore.subs || subsStore.subs.length === 0) return []
+  const set = new Set()
+  subsStore.subs.forEach(sub => {
+    if (Array.isArray(sub.tag) && sub.tag.length > 0) {
+      sub.tag.forEach(i => {
+        set.add(i)
+      });
     } else {
-      return form.tag
+      hasUntagged.value = true
     }
   })
-  const showTagPopup = (type:string) => {
-    tagType.value = type || 'tag'
-    tagPopupVisible.value = true
-  };
-  const setTagValue = (tag: any) => {
-    if (tagType.value === 'linkTag') {
-      form.subscriptionTags = tag;
-    } else {
-      form.tag = tag;      
-    }
-  };
-  const selectedSubs = computed(() => {
-    if(!Array.isArray(form.subscriptions) || form.subscriptions.length === 0) return `: ${t(`editorPage.subConfig.basic.subscriptions.empty`)}`
-    return `: ${form.subscriptions.map((name) => {
-      const sub = subsStore.getOneSub(name);
-      return sub?.displayName || sub?.["display-name"] || sub.name;
-    }).join(', ')}`
-  });
-  const compareTableIsVisible = ref(false);
-  usePopupRoute(compareTableIsVisible);
-  const compareData = ref();
+
+  let tags: any[] = Array.from(set)
+  if (tags.length === 0) return []
+  tags = tags.map(i => ({ label: i, value: i }));
+  const result = [{ label: t("specificWord.all"), value: "all" }, ...tags]
+  if (hasUntagged.value) result.push({ label: t("specificWord.untagged"), value: "untagged" })
+  return result
+});
+const tag = ref('all');
+const tagPopupVisible = ref(false);
+const tagType = ref('tag'); // 标签tag | 关联订阅标签linkTag
+const tagPopupRef = ref(null);
+const currentTag = computed(() => {
+  if (tagType.value === 'linkTag') {
+    return form.subscriptionTags
+  } else {
+    return form.tag
+  }
+})
+const showTagPopup = (type: string) => {
+  tagType.value = type || 'tag'
+  tagPopupVisible.value = true
+};
+const setTagValue = (tag: any) => {
+  if (tagType.value === 'linkTag') {
+    form.subscriptionTags = tag;
+  } else {
+    form.tag = tag;
+  }
+};
+const selectedSubs = computed(() => {
+  if (!Array.isArray(form.subscriptions) || form.subscriptions.length === 0) return `: ${t(`editorPage.subConfig.basic.subscriptions.empty`)}`
+  return `: ${form.subscriptions.map((name) => {
+    const sub = subsStore.getOneSub(name);
+    return sub?.displayName || sub?.["display-name"] || sub.name;
+  }).join(', ')}`
+});
+const compareTableIsVisible = ref(false);
+usePopupRoute(compareTableIsVisible);
+const compareData = ref();
 
 let scrollTop = 0;
 const isInit = ref(false);
@@ -747,7 +543,7 @@ const closeCompare = () => {
 
   router.back();
 };
-const upload = async() => {
+const upload = async () => {
   try {
     fileInput.value.click()
   } catch (e) {
@@ -756,7 +552,7 @@ const upload = async() => {
 }
 const fileChange = async (event) => {
   const file = event.target.files[0];
-  if(!file) return
+  if (!file) return
   try {
     const reader = new FileReader();
     reader.readAsText(file);
@@ -767,7 +563,7 @@ const fileChange = async (event) => {
     reader.onerror = e => {
       throw e
     }
-    
+
   } catch (e) {
     showNotify({
       type: "danger",
@@ -929,7 +725,7 @@ const submit = () => {
     }
 
     if (res?.data?.status === "success") {
-      router.replace("/").then(() => {
+      router.replace("/sub").then(() => {
         if (res)
           showNotify({
             type: "success",
@@ -976,177 +772,177 @@ const urlValidator = (val: string): Promise<boolean> => {
   });
 };
 
-  // 失去焦点触发验证
-  const customerBlurValidate = (prop: string) => {
-    ruleForm.value.validate(prop);
-  };
-  // 去除空格
-  const strTrim = (prop: string) => {
-    if (typeof form[prop] === "string") {
-      // 正则表达式去除首尾空格,
-      form[prop] = form[prop].replace(/[^\S\r\n]+/g, '')
-    }
+// 失去焦点触发验证
+const customerBlurValidate = (prop: string) => {
+  ruleForm.value.validate(prop);
+};
+// 去除空格
+const strTrim = (prop: string) => {
+  if (typeof form[prop] === "string") {
+    // 正则表达式去除首尾空格,
+    form[prop] = form[prop].replace(/[^\S\r\n]+/g, '')
   }
-  // 图标
-  const subIcon = computed(() => {
-    if (form.icon) {
-      return form.icon
-    } else {
-      return appearanceSetting.value.isDefaultIcon ? logoIcon : logoRedIcon
-    }
-  })
-  const iconPopupVisible = ref(false)
-  const iconPopupRef = ref(null)
-  const showIconPopup = () => {
-    iconPopupVisible.value = true
+}
+// 图标
+const subIcon = computed(() => {
+  if (form.icon) {
+    return form.icon
+  } else {
+    return appearanceSetting.value.isDefaultIcon ? logoIcon : logoRedIcon
   }
-  const setIcon = (icon: any) => {
-    form.icon = icon.url
-  }
-  const iconTips = () => {
-    router.push(`/icon/collection`);
-  };
-  const uaTips = () => {
-    Dialog({
-        title: '默认使用配置中的全局 UA',
-        content: '可尝试设置为 clash-verge/v1.5.1 等客户端的 User-Agent 让机场后端下发更多协议',
-        popClass: 'auto-dialog',
-        okText: 'OK',
-        noCancelBtn: true,
-        closeOnPopstate: true,
-        lockScroll: false,
-      });
-  };
-  const subUserinfoTips = () => {
-    Dialog({
-        title: '手动设置订阅流量信息',
-        content: '若填写链接, 则使用链接的响应内容作为值.\n\n此项值的格式为:\n\nupload=1024; download=10240; total=102400; expire=4115721600; reset_day=14; plan_name=VIP1; app_url=http://a.com\n\n1. app_url, 订阅将有一个可点击跳转的按钮\n\n2. plan_name, hover 时将显示套餐名称\n\n3. reset_day, 流量重置剩余天数(若要设置周期性重置, 可查看订阅链接中的参数说明)\n\n⚠️ 注意: 手动设置的订阅流量信息会附加到订阅自己的流量信息之前. 若包含不合法的内容, 订阅将无法正常使用\n\n例如: http://官网.com 应编码为 http%3A%2F%2F%E5%AE%98%E7%BD%91.com',
-        popClass: 'auto-dialog',
-        okText: 'OK',
-        noCancelBtn: true,
-        closeOnPopstate: true,
-        lockScroll: false,
-      });
-  };
-  const proxyTips = () => {
-    Dialog({
-        title: '通过代理/节点/策略获取订阅',
-        content: '1. Surge(参数 policy/policy-descriptor)\n\n可设置节点代理 例: Test = snell, 1.2.3.4, 80, psk=password, version=4\n\n或设置策略/节点 例: 国外加速\n\n2. Loon(参数 node)\n\nLoon 官方文档: \n\n指定该请求使用哪一个节点或者策略组（可以使节点名称、策略组名称，也可以说是一个Loon格式的节点描述，如：shadowsocksr,example.com,1070,chacha20-ietf,"password",protocol=auth_aes128_sha1,protocol-param=test,obfs=plain,obfs-param=edge.microsoft.com）\n\n3. Stash(参数 headers["X-Surge-Policy"])/Shadowrocket(参数 headers.X-Surge-Policy)/QX(参数 opts.policy)\n\n可设置策略/节点\n\n4. Node.js 版(模块 request 的 proxy 参数):\n\n例: http://127.0.0.1:8888\n\n※ 优先级由高到低: 单条订阅, 组合订阅, 默认配置',
-        popClass: 'auto-dialog',
-        textAlign: 'left',
-        okText: 'OK',
-        noCancelBtn: true,
-        closeOnPopstate: true,
-        lockScroll: false,
-      });
-  };
-  const subscriptionTagsTips = () => {
-    Dialog({
-        title: '组合订阅与单条订阅',
-        content: '组合订阅中将包含\n\n1. 含有关联订阅标签的单条订阅\n\n2. 手动选择的单条订阅\n\n举例: 设置了关联订阅标签为 "A, B" 后\n包含标签 "A" 或 "B" 的单条订阅将自动关联到此组合订阅',
-        popClass: 'auto-dialog',
-        textAlign: 'left',
-        okText: 'OK',
-        noCancelBtn: true,
-        closeOnPopstate: true,
-        lockScroll: false,
-      });
-  };
-  const urlTips = () => {
-    Dialog({
-        title: t('editorPage.subConfig.basic.url.tips.title'),
-        content: t('editorPage.subConfig.basic.url.tips.content'),
-        popClass: 'auto-dialog',
-        textAlign: 'left',
-        okText: 'OK',
-        noCancelBtn: true,
-        closeOnPopstate: true,
-        lockScroll: false,
-      });
-  };
-  const contentTips = () => {
-    Dialog({
-        title: t('editorPage.subConfig.basic.content.tips.title'),
-        content: t('editorPage.subConfig.basic.content.tips.content'),
-        popClass: 'auto-dialog',
-        textAlign: 'left',
-        okText: 'OK',
-        noCancelBtn: true,
-        closeOnPopstate: true,
-        lockScroll: false,
-      });
-  };
-  const setTag = (current) => {
-    tag.value = current;
-  };
-  const shouldShowElement = (element) => {
-    if(tag.value === 'all') return true
-    if(tag.value === 'untagged') return !Array.isArray(element) || element.length === 0
-    return element.includes(tag.value)
-  };
-  const subCheckboxIndeterminate = ref(true);
-  const subCheckbox = ref(true);
-  // const subCheckboxChange = (v) => {
-  //   console.log(`${!v} -> ${v}`)
-  // };
-  const subCheckboxClick = () => {
-    // const selected = toRaw(form.subscriptions) || []
-    const group = subsSelectList.value.filter(item => shouldShowElement(item[3])).map(item => item[0]) || []
-    if (subCheckboxIndeterminate.value) {
-      console.log(`半选, 应变为全选`)  
-      for (let i = 0; i < group.length; i++) {
-        const index = form.subscriptions.indexOf(group[i])
-        if (index === -1) {
-          form.subscriptions.push(group[i])
-        }
+})
+const iconPopupVisible = ref(false)
+const iconPopupRef = ref(null)
+const showIconPopup = () => {
+  iconPopupVisible.value = true
+}
+const setIcon = (icon: any) => {
+  form.icon = icon.url
+}
+const iconTips = () => {
+  router.push(`/icon/collection`);
+};
+const uaTips = () => {
+  Dialog({
+    title: '默认使用配置中的全局 UA',
+    content: '可尝试设置为 clash-verge/v1.5.1 等客户端的 User-Agent 让机场后端下发更多协议',
+    popClass: 'auto-dialog',
+    okText: 'OK',
+    noCancelBtn: true,
+    closeOnPopstate: true,
+    lockScroll: false,
+  });
+};
+const subUserinfoTips = () => {
+  Dialog({
+    title: '手动设置订阅流量信息',
+    content: '若填写链接, 则使用链接的响应内容作为值.\n\n此项值的格式为:\n\nupload=1024; download=10240; total=102400; expire=4115721600; reset_day=14; plan_name=VIP1; app_url=http://a.com\n\n1. app_url, 订阅将有一个可点击跳转的按钮\n\n2. plan_name, hover 时将显示套餐名称\n\n3. reset_day, 流量重置剩余天数(若要设置周期性重置, 可查看订阅链接中的参数说明)\n\n⚠️ 注意: 手动设置的订阅流量信息会附加到订阅自己的流量信息之前. 若包含不合法的内容, 订阅将无法正常使用\n\n例如: http://官网.com 应编码为 http%3A%2F%2F%E5%AE%98%E7%BD%91.com',
+    popClass: 'auto-dialog',
+    okText: 'OK',
+    noCancelBtn: true,
+    closeOnPopstate: true,
+    lockScroll: false,
+  });
+};
+const proxyTips = () => {
+  Dialog({
+    title: '通过代理/节点/策略获取订阅',
+    content: '1. Surge(参数 policy/policy-descriptor)\n\n可设置节点代理 例: Test = snell, 1.2.3.4, 80, psk=password, version=4\n\n或设置策略/节点 例: 国外加速\n\n2. Loon(参数 node)\n\nLoon 官方文档: \n\n指定该请求使用哪一个节点或者策略组（可以使节点名称、策略组名称，也可以说是一个Loon格式的节点描述，如：shadowsocksr,example.com,1070,chacha20-ietf,"password",protocol=auth_aes128_sha1,protocol-param=test,obfs=plain,obfs-param=edge.microsoft.com）\n\n3. Stash(参数 headers["X-Surge-Policy"])/Shadowrocket(参数 headers.X-Surge-Policy)/QX(参数 opts.policy)\n\n可设置策略/节点\n\n4. Node.js 版(模块 request 的 proxy 参数):\n\n例: http://127.0.0.1:8888\n\n※ 优先级由高到低: 单条订阅, 组合订阅, 默认配置',
+    popClass: 'auto-dialog',
+    textAlign: 'left',
+    okText: 'OK',
+    noCancelBtn: true,
+    closeOnPopstate: true,
+    lockScroll: false,
+  });
+};
+const subscriptionTagsTips = () => {
+  Dialog({
+    title: '组合订阅与单条订阅',
+    content: '组合订阅中将包含\n\n1. 含有关联订阅标签的单条订阅\n\n2. 手动选择的单条订阅\n\n举例: 设置了关联订阅标签为 "A, B" 后\n包含标签 "A" 或 "B" 的单条订阅将自动关联到此组合订阅',
+    popClass: 'auto-dialog',
+    textAlign: 'left',
+    okText: 'OK',
+    noCancelBtn: true,
+    closeOnPopstate: true,
+    lockScroll: false,
+  });
+};
+const urlTips = () => {
+  Dialog({
+    title: t('editorPage.subConfig.basic.url.tips.title'),
+    content: t('editorPage.subConfig.basic.url.tips.content'),
+    popClass: 'auto-dialog',
+    textAlign: 'left',
+    okText: 'OK',
+    noCancelBtn: true,
+    closeOnPopstate: true,
+    lockScroll: false,
+  });
+};
+const contentTips = () => {
+  Dialog({
+    title: t('editorPage.subConfig.basic.content.tips.title'),
+    content: t('editorPage.subConfig.basic.content.tips.content'),
+    popClass: 'auto-dialog',
+    textAlign: 'left',
+    okText: 'OK',
+    noCancelBtn: true,
+    closeOnPopstate: true,
+    lockScroll: false,
+  });
+};
+const setTag = (current) => {
+  tag.value = current;
+};
+const shouldShowElement = (element) => {
+  if (tag.value === 'all') return true
+  if (tag.value === 'untagged') return !Array.isArray(element) || element.length === 0
+  return element.includes(tag.value)
+};
+const subCheckboxIndeterminate = ref(true);
+const subCheckbox = ref(true);
+// const subCheckboxChange = (v) => {
+//   console.log(`${!v} -> ${v}`)
+// };
+const subCheckboxClick = () => {
+  // const selected = toRaw(form.subscriptions) || []
+  const group = subsSelectList.value.filter(item => shouldShowElement(item[3])).map(item => item[0]) || []
+  if (subCheckboxIndeterminate.value) {
+    console.log(`半选, 应变为全选`)
+    for (let i = 0; i < group.length; i++) {
+      const index = form.subscriptions.indexOf(group[i])
+      if (index === -1) {
+        form.subscriptions.push(group[i])
       }
-    } else if (!subCheckbox.value) {
-      console.log(`全选, 应变为不选`)
-      // 用遍历与 form.subscriptions.slice 的方式, 去掉 form.subscriptions 中所有被 group 包含的元素
-      for (let i = 0; i < group.length; i++) {
-        const index = form.subscriptions.indexOf(group[i])
-        if (index > -1) {
-          form.subscriptions.splice(index, 1)
-        }
-      }
-      // subCheckbox.value = !subCheckbox.value
-    } else {
-      console.log(`不选, 应变为全选`)
-      for (let i = 0; i < group.length; i++) {
-        const index = form.subscriptions.indexOf(group[i])
-        if (index === -1) {
-          form.subscriptions.push(group[i])
-        }
-      }
-      // subCheckbox.value = !subCheckbox.value
     }
+  } else if (!subCheckbox.value) {
+    console.log(`全选, 应变为不选`)
+    // 用遍历与 form.subscriptions.slice 的方式, 去掉 form.subscriptions 中所有被 group 包含的元素
+    for (let i = 0; i < group.length; i++) {
+      const index = form.subscriptions.indexOf(group[i])
+      if (index > -1) {
+        form.subscriptions.splice(index, 1)
+      }
+    }
+    // subCheckbox.value = !subCheckbox.value
+  } else {
+    console.log(`不选, 应变为全选`)
+    for (let i = 0; i < group.length; i++) {
+      const index = form.subscriptions.indexOf(group[i])
+      if (index === -1) {
+        form.subscriptions.push(group[i])
+      }
+    }
+    // subCheckbox.value = !subCheckbox.value
+  }
+  subCheckboxIndeterminate.value = false
+};
+watch([tag, form.subscriptions, subsSelectList], () => {
+  const selected = toRaw(form.subscriptions) || []
+  const group = subsSelectList.value.filter(item => shouldShowElement(item[3])).map(item => item[0]) || []
+  // 1. group 中不包含 selected 中的任何元素, subCheckbox 为 false, subCheckboxIndeterminate 为 false
+  // 2. group 中包含 selected 中的任何元素, subCheckbox 为 true, subCheckboxIndeterminate 为 true
+  // 3. group 中包含 selected 中的所有元素, subCheckbox 为 true, subCheckboxIndeterminate 为 false
+  if (group.every(item => selected.includes(item))) {
+    // console.log('group 中包含 selected 中的所有元素')
+    subCheckbox.value = true
     subCheckboxIndeterminate.value = false
-  };
-  watch([tag, form.subscriptions, subsSelectList], () => {
-    const selected = toRaw(form.subscriptions) || []
-    const group = subsSelectList.value.filter(item => shouldShowElement(item[3])).map(item => item[0]) || []
-    // 1. group 中不包含 selected 中的任何元素, subCheckbox 为 false, subCheckboxIndeterminate 为 false
-    // 2. group 中包含 selected 中的任何元素, subCheckbox 为 true, subCheckboxIndeterminate 为 true
-    // 3. group 中包含 selected 中的所有元素, subCheckbox 为 true, subCheckboxIndeterminate 为 false
-    if (group.every(item => selected.includes(item))) {
-      // console.log('group 中包含 selected 中的所有元素')
-      subCheckbox.value = true
-      subCheckboxIndeterminate.value = false
-    } else if (group.some(item => selected.includes(item))) {
-      // console.log('group 中包含 selected 中的任意元素')
-      subCheckbox.value = true
-      subCheckboxIndeterminate.value = true
-    } else {
-      // console.log('group 中不包含 selected 中的任意元素')
-      subCheckbox.value = false
-      subCheckboxIndeterminate.value = false
-    }
-  }, { immediate: true });
-  // const subCheckboxIndeterminate = computed(() => {
-  //   const selected = toRaw(form.subscriptions)
-  //   const currentGroup = subsSelectList.value.filter(item => shouldShowElement(item[3])).map(item => item[0])
-  //   return true
-  // });
+  } else if (group.some(item => selected.includes(item))) {
+    // console.log('group 中包含 selected 中的任意元素')
+    subCheckbox.value = true
+    subCheckboxIndeterminate.value = true
+  } else {
+    // console.log('group 中不包含 selected 中的任意元素')
+    subCheckbox.value = false
+    subCheckboxIndeterminate.value = false
+  }
+}, { immediate: true });
+// const subCheckboxIndeterminate = computed(() => {
+//   const selected = toRaw(form.subscriptions)
+//   const currentGroup = subsSelectList.value.filter(item => shouldShowElement(item[3])).map(item => item[0])
+//   return true
+// });
 
 const actionBlockRef = ref(null)
 const customNameModeFlag = ref(false)
@@ -1163,24 +959,28 @@ const handleEditGlobalClick = () => {
 
 <style lang="scss" scoped>
 .page-wrapper {
-  padding: 0 var(--safe-area-side) calc(v-bind("padding") + 63px)
-    var(--safe-area-side);
+  padding: 0 var(--safe-area-side) calc(v-bind("padding") + 63px) var(--safe-area-side);
 
   :deep(.nut-cell-group__warp) {
     border-radius: var(--item-card-radios);
   }
-  :deep(.nut-icon-tips:before), :deep(.nut-icon-shop:before) {
+
+  :deep(.nut-icon-tips:before),
+  :deep(.nut-icon-shop:before) {
     cursor: pointer;
   }
 }
+
 .tag-check {
   display: flex;
   justify-content: space-between;
+
   :deep(.nut-checkbox__label) {
     margin-left: 0;
     margin-right: 0;
   }
 }
+
 .radio-wrapper {
   display: flex;
   // justify-content: start;
@@ -1192,6 +992,7 @@ const handleEditGlobalClick = () => {
     border-color: transparent;
     color: var(--second-text-color);
   }
+
   :deep(.nut-radio__button) {
     padding: 5px 10px;
   }
@@ -1199,9 +1000,11 @@ const handleEditGlobalClick = () => {
 
 .form-block-wrapper {
   position: relative;
+
   .sticky-title-icon-container {
     display: flex;
     justify-content: center;
+
     .nut-image {
       cursor: pointer;
       width: 70px;
@@ -1210,12 +1013,14 @@ const handleEditGlobalClick = () => {
       overflow: hidden;
       background: transparent;
       padding: 10px;
+
       :deep(img) {
         width: 100%;
         height: 100%;
         border-radius: 12px;
       }
     }
+
     .sub-item-customer-icon {
       :deep(img) {
         & {
@@ -1225,6 +1030,7 @@ const handleEditGlobalClick = () => {
       }
     }
   }
+
   .button-tips {
     color: var(--primary-color);
     cursor: pointer;
@@ -1232,13 +1038,16 @@ const handleEditGlobalClick = () => {
     text-decoration: underline;
     margin-left: 6px;
   }
+
   .label-tips {
     display: inline-flex;
     flex-direction: column;
     cursor: pointer;
+
     .tips {
       display: inline-flex;
       align-items: center;
+
       span {
         color: var(--primary-color);
         text-decoration: underline;
@@ -1247,7 +1056,8 @@ const handleEditGlobalClick = () => {
       }
     }
   }
-  :deep(.nut-input-text){
+
+  :deep(.nut-input-text) {
     .nut-input-inner {
       .nut-input-right-icon {
         margin-left: 8px;
@@ -1262,8 +1072,7 @@ const handleEditGlobalClick = () => {
   justify-content: space-between;
   bottom: 0;
   width: 100%;
-  padding: 8px var(--safe-area-side) calc(v-bind("padding") + 8px)
-    var(--safe-area-side);
+  padding: 8px var(--safe-area-side) calc(v-bind("padding") + 8px) var(--safe-area-side);
   z-index: 20;
   background: var(--background-color);
   border-top: 1px solid var(--divider-color);
@@ -1294,9 +1103,11 @@ const handleEditGlobalClick = () => {
 .ignore-failed-wrapper {
   flex-direction: row;
   justify-content: space-between;
+
   :deep(.nut-form-item__label) {
     width: auto;
   }
+
   .switch-wrapper {
     display: flex;
     justify-content: flex-end
@@ -1325,6 +1136,7 @@ const handleEditGlobalClick = () => {
       user-select: none;
       border-bottom: 1px solid transparent;
     }
+
     .current {
       border-bottom: 1px solid var(--primary-color);
       color: var(--primary-color);
@@ -1357,9 +1169,11 @@ const handleEditGlobalClick = () => {
         align-items: center;
         font-size: 14px;
         color: var(--second-text-color);
+
         .icon {
           margin-right: 8px;
         }
+
         span {
           max-width: 56vw;
           display: -webkit-box;
@@ -1375,9 +1189,11 @@ const handleEditGlobalClick = () => {
           flex-wrap: wrap;
           align-items: center;
           margin: -4px 0 0 -4px;
+
           .name {
             margin: 4px 0 0 4px;
           }
+
           .tag {
             margin: 4px 0 0 4px;
             // white-space: nowrap;

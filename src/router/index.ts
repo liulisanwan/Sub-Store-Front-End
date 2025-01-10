@@ -29,6 +29,7 @@ import 'vue-router';
 import { createRouter, createWebHistory } from 'vue-router';
 import aboutUs from '@/views/settings/AboutUs.vue';
 import APISetting from '@/views/settings/APISetting.vue';
+import Login from '@/views/Login.vue';
 
 // import { SwipeBack } from 'vue-swipe-back'
 
@@ -76,7 +77,7 @@ const router = createRouter({
   history,
   routes: [
     {
-      path: '/',
+      path: '/sub',
       component: AppLayout,
       redirect: '/subs',
       children: [
@@ -217,6 +218,15 @@ const router = createRouter({
         needNavBack: true,
       },
     },
+    {
+      path: '/',
+      component: Login,
+      meta: {
+        title: 'login',
+        needTabBar: false,
+        needNavBack: false,
+      },
+    }
   ],
 });
 
@@ -254,10 +264,10 @@ router.beforeEach((to, from) => {
   if (globalStore) {
     if (from?.meta?.needTabBar && from?.path !== to?.path) {
       // if (from?.meta?.needTabBar) {
-        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-        // console.log(`保存 ${from.path} 滚动位置：${scrollTop}`)
-        globalStore.setSavedPositions(from.path, { left: 0, top: scrollTop })
-      }
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+      // console.log(`保存 ${from.path} 滚动位置：${scrollTop}`)
+      globalStore.setSavedPositions(from.path, { left: 0, top: scrollTop })
+    }
   }
   return true
 })
@@ -271,24 +281,24 @@ router.beforeResolve(async (to, from) => {
     const storeEnv = toRaw(globalStore.env);
     if (storeEnv?.backend && storeEnv?.version) {
       useEnvApi()
-      .getEnv()
-      .then(async res => {
-        const envNow = res;
-        if (envNow?.data?.status === 'success') {
-          const backend = envNow.data.data.backend;
-          const version = envNow.data.data.version;
-          const hasNewVersion = envNow.data.data.hasNewVersion;
-          const latestVersion = envNow.data.data.latestVersion;
-          if (backend !== storeEnv.backend || version !== storeEnv.version) {
-            Toast.loading('检测到后端变化，更新数据中...', {
-              cover: true,
-              id: 'fetchLoading',
-            });
-            await initStores(false, true, true);
-            Toast.hide('fetchLoading');
+        .getEnv()
+        .then(async res => {
+          const envNow = res;
+          if (envNow?.data?.status === 'success') {
+            const backend = envNow.data.data.backend;
+            const version = envNow.data.data.version;
+            const hasNewVersion = envNow.data.data.hasNewVersion;
+            const latestVersion = envNow.data.data.latestVersion;
+            if (backend !== storeEnv.backend || version !== storeEnv.version) {
+              Toast.loading('检测到后端变化，更新数据中...', {
+                cover: true,
+                id: 'fetchLoading',
+              });
+              await initStores(false, true, true);
+              Toast.hide('fetchLoading');
+            }
           }
-        }
-      });
+        });
     }
   } else {
     globalStore = useGlobalStore();
@@ -303,7 +313,7 @@ router.beforeResolve(async (to, from) => {
           await useSubsApi().getOne('sub', name);
         } else if (to.params.editType === 'collections') {
           await useSubsApi().getOne('collection', name);
-        }else if (to.params.editType === 'files') {
+        } else if (to.params.editType === 'files') {
           await useFilesApi().getWholeFile(name);
         }
       } catch {
@@ -331,5 +341,27 @@ router.beforeResolve(async (to, from) => {
   // 允许跳转
   return true;
 });
+router.beforeEach((to, from, next) => {
+  // let token = window.localStorage.getItem('token')
+  // let type = window.localStorage.getItem('type')
+  if (to.path === '/' || to.path === '/login' || to.path === '/error') {
+    // console.log("允许直接访问")
+    next();
+  } else {
+    // let token = window.localStorage.getItem('token') // 长期存储
+    let token = window.sessionStorage.getItem('token') // 临时存储，关闭标签后就清除
+    // console.log("需要token")
+    if (token === null || token === '' || token !== 'code') {
+      // console.log("无token，跳转登录")
+      next('/');
+    } else {
+      // console.log("有token")
+      next();
+    }
+  }
+});
+
+
+export default router;
 
 export default router;

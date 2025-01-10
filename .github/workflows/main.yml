@@ -1,4 +1,5 @@
-name: build
+name: Build and Release
+
 on:
   push:
     branches:
@@ -28,17 +29,12 @@ jobs:
           npm install -g pnpm
           pnpm config set registry https://registry.npmmirror.com
           pnpm i --no-frozen-lockfile
-      - name: build
+      - name: Build
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
         run: |
+          echo "VITE_API_URL is: $VITE_API_URL"
           pnpm build
-      - uses: amondnet/vercel-action@v20 #deploy
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
-          # github-token: ${{ secrets.GITHUB_TOKEN }} # Optional
-          vercel-args: "--prod" # Optional
-          vercel-org-id: ${{ secrets.ORG_ID}} # Required
-          vercel-project-id: ${{ secrets.PROJECT_ID}} # Required
-          working-directory: dist
       - name: zip
         run: |
           zip -r dist.zip dist
@@ -51,6 +47,9 @@ jobs:
         run: |
           pnpm i -D conventional-changelog-cli
           pnpm run changelog
+      - name: Get current date
+        id: date
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
       - name: Release
         uses: softprops/action-gh-release@v1
         if: ${{ success() }}
@@ -59,6 +58,6 @@ jobs:
         with:
           body_path: ./CHANGELOG.md
           tag_name: ${{ steps.tag.outputs.release_tag }}
-          # generate_release_notes: true
+          name: Release ${{ steps.tag.outputs.release_tag }} - ${{ steps.date.outputs.date }}
           files: |
             dist.zip
