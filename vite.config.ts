@@ -33,13 +33,12 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
       htmlPlugin(),
       vue(),
       createStyleImportPlugin({
-        // resolves: [NutuiResolve()],
         libs: [
           {
             libraryName: "@nutui/nutui",
             esModule: true,
             resolveStyle: (name) => {
-              name = name.toLowerCase().replace("-", ""); // NutuiResolve官方版目前在linux会造成大小写不一致问题无法加载资源
+              name = name.toLowerCase().replace("-", "");
               if (name === "icon") {
                 return "";
               }
@@ -54,19 +53,13 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
         customDomId: "__svg__icons__dom__",
       }),
       viteCompression({
-        // verbose: true,
-        // disable: false,
         threshold: 10240,
-        // algorithm: 'gzip',
-        // ext: '.gz'
       }),
       VitePWA({
         srcDir: "src",
         outDir: "dist",
         strategies: "generateSW",
         registerType: "autoUpdate",
-        // minify: true,
-        // includeAssets: ['favicon.svg'],
         manifest: {
           name: "Sub Store",
           short_name: "Sub Store",
@@ -107,10 +100,9 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
         },
         workbox: {
           navigateFallbackDenylist: [/(^|\/.+)\/(api|download|share)\/.+/],
-          // globPatterns: ['**/*.{css,js,gz,eot,html,svg,png,ico,ttf,woff2}'],
           runtimeCaching: [
             {
-              urlPattern: /.*\.(?:js|css|gz|html|json)/i, // json
+              urlPattern: /.*\.(?:js|css|gz|html|json)/i,
               handler: "CacheFirst",
               options: {
                 cacheName: "sub-store-js-cache",
@@ -178,7 +170,6 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
     css: {
       preprocessorOptions: {
         scss: {
-          // 配置 自定义覆盖主题 和 nutui 全局 scss 变量
           additionalData: `@import "@/assets/styles/custom_variables.scss";@import "@nutui/nutui/dist/styles/variables-jdt.scss";`,
         },
       },
@@ -189,6 +180,7 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
       __INTLIFY_PROD_DEVTOOLS__: false,
       "import.meta.env.PACKAGE_VERSION": JSON.stringify(version),
     },
+    envPrefix: ['VITE_', 'ADMIN_'], // 添加这一行
   };
 });
 
